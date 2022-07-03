@@ -32,7 +32,7 @@ Currently projet is in Early stage ,many features are pending to implement yet a
 
 ## Supported Api's :
 
-`Request Device`
+`Request Device` (Filters not included yet)
 
 `Connect`
 
