@@ -1,0 +1,71 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_inappwebview (0.0.1):
+    - Flutter
+    - flutter_inappwebview/Core (= 0.0.1)
+    - OrderedSet (~> 5.0)
+  - flutter_inappwebview/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 5.0)
+  - OrderedSet (5.0.0)
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - Protobuf (3.20.1)
+  - quick_blue (0.0.1):
+    - Flutter
+  - reactive_ble_mobile (0.0.1):
+    - Flutter
+    - Protobuf (~> 3.5)
+    - SwiftProtobuf (~> 1.0)
+  - SwiftProtobuf (1.19.0)
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - web_view_ble (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - quick_blue (from `.symlinks/plugins/quick_blue/ios`)
+  - reactive_ble_mobile (from `.symlinks/plugins/reactive_ble_mobile/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - web_view_ble (from `.symlinks/plugins/web_view_ble/ios`)
+
+SPEC REPOS:
+  trunk:
+    - OrderedSet
+    - Protobuf
+    - SwiftProtobuf
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_inappwebview:
+    :path: ".symlinks/plugins/flutter_inappwebview/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  quick_blue:
+    :path: ".symlinks/plugins/quick_blue/ios"
+  reactive_ble_mobile:
+    :path: ".symlinks/plugins/reactive_ble_mobile/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  web_view_ble:
+    :path: ".symlinks/plugins/web_view_ble/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
+  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  Protobuf: b60ec2f51ad74765f44d0c09d2e0579d7de21745
+  quick_blue: 3786c0eccb373bf9799ec1b42f495f77199a4e7e
+  reactive_ble_mobile: 9ce6723d37ccf701dbffd202d487f23f5de03b4c
+  SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  web_view_ble: 2747581ed52023931048d6431b3bd9943d13ad7c
+
+PODFILE CHECKSUM: 492cfe6d66b4e0561d25916472eab15577394aa3
+
+COCOAPODS: 1.11.3
