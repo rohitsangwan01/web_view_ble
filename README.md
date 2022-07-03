@@ -25,30 +25,30 @@ void onLoadStop(InAppWebViewController controller,BuildContext context) async {
 }
 ```
 
-and that's it ,WebBluetooth support will be added to your webview
+and that's it ,WebBluetooth support will be added to your webview ,
 Checkout Example for more details
 
 Currently projet is in Early stage ,many features are pending to implement yet and Apis might change later
 
 ## Supported Api's :
 
-Request Device
+`Request Device`
 
-Connect
+`Connect`
 
-Disconnect
+`Disconnect`
 
-Read Characteristics
+`Read Characteristics`
 
-Write Characteristics
+`Write Characteristics`
 
 ## TODO :
 
-getCharacteristics
+`getCharacteristics List`
 
-Subscribe/Unsubscribe to Characteristics
+`Subscribe/Unsubscribe to Characteristics`
 
-Get Device Connection State Event
+`Update Device Connection State Event`
 
 ## Resources
 
