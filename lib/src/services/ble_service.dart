@@ -131,6 +131,7 @@ class BleService {
 
   Future<void> writeCharacteristics(characteristicUUID, serviceUUID, deviceID,
       value, bool writeWithResponse) async {
+        var code = base64.decode(value);
     QualifiedCharacteristic characteristic = QualifiedCharacteristic(
         characteristicId: Uuid.parse(characteristicUUID),
         serviceId: Uuid.parse(serviceUUID),
@@ -138,12 +139,12 @@ class BleService {
     if (writeWithResponse) {
       await flutterReactiveBle.writeCharacteristicWithResponse(
         characteristic,
-        value: value,
+        value: code,
       );
     } else {
       await flutterReactiveBle.writeCharacteristicWithoutResponse(
         characteristic,
-        value: value,
+        value: code,
       );
     }
   }
@@ -236,6 +237,7 @@ class BleService {
   Map<String, dynamic> _characteristicsToJson(
       DiscoveredCharacteristic characteristic) {
     var data = {
+      "uuid": characteristic.characteristicId.toString(),
       "properties": {
         "read": characteristic.isReadable,
         "write": characteristic.isWritableWithResponse,
