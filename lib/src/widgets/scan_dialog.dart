@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_view_ble/src/services/ble_service.dart';
@@ -50,7 +49,7 @@ class ScanView extends StatelessWidget {
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 1.8,
         child: StreamBuilder(
-          stream: BleService.to.scnaStream,
+          stream: BleService.to.scanStream,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return ListView.builder(
               itemCount: BleService.to.discoveredDevicesList.length,

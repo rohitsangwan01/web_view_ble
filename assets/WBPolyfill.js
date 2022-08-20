@@ -12,7 +12,6 @@
 
   let native;
 
-  // console.log("Create BluetoothGATTDescriptor");
   function BluetoothGATTDescriptor(characteristic, uuid) {
     wbutils.defineROProperties(this, {
       characteristic: characteristic,
@@ -118,7 +117,7 @@
       this.messageCount = mc;
       return this.messageCount;
     },
-    sendMessage: function (type, sendMessageParms) {
+    sendMessage: async function (type, sendMessageParms) {
       let message;
       if (type === undefined) {
         throw new Error("CallRemote should never be called without a type!");
@@ -132,14 +131,18 @@
         data: data,
         callbackID: callbackID,
       };
-
       console.log(`Callback : ${type} | ID : ${callbackID}`);
-
-      return window.flutter_inappwebview
-        .callHandler(type, { data: data })
-        .then(function (result) {
-          return result;
-        });
+      // return window.flutter_inappwebview
+      //   .callHandler(type, { data: data })
+      //   .then(function (result) {
+      //     return result;
+      //   });
+      this.messageCount += 1;
+      let result = await window.flutter_inappwebview.callHandler(type, {
+        data: data,
+        callbackID: callbackID,
+      });
+      return result;
     },
     receiveMessageResponse: function (success, resultString, callbackID) {
       if (callbackID !== undefined && native.callbacks[callbackID]) {
@@ -234,16 +237,19 @@
   wb.native = native;
 
   // Exposed interfaces
+  window.iOSNativeAPI = native;
+  window.BluetoothDevice = wb.BluetoothDevice;
+
   window.BluetoothRemoteGATTCharacteristic =
     wb.BluetoothRemoteGATTCharacteristic;
   window.BluetoothRemoteGATTServer = wb.BluetoothRemoteGATTServer;
   window.BluetoothRemoteGATTService = wb.BluetoothRemoteGATTService;
-  window.BluetoothDevice = wb.BluetoothDevice;
-  window.iOSNativeAPI = native;
-  window.receiveDeviceDisconnectEvent = native.receiveDeviceDisconnectEvent;
+
   window.receiveMessageResponse = native.receiveMessageResponse;
   window.receiveCharacteristicValueNotification =
     native.receiveCharacteristicValueNotification;
+
+  // window.receiveDeviceDisconnectEvent = native.receiveDeviceDisconnectEvent;
 
   native.enableBluetooth();
   function open(location) {
@@ -251,4 +257,43 @@
   }
   window.open = open;
   console.log("Initialized web bluetooth");
+
+  // Event Handlers from Dart
+  window.addEventListener(
+    "flutterEventListener",
+    (event) => {
+      console.log(JSON.stringify(event.detail));
+    },
+    false
+  );
+
+  // Connection Event Listener
+  window.addEventListener(
+    "flutterConnectionEventListener",
+    (event) => {
+      let data = JSON.stringify(event.detail);
+      const myObj = JSON.parse(data);
+      let isConnected = myObj.state;
+      let deviceId = myObj.deviceId;
+      if (!isConnected) {
+        native.receiveDeviceDisconnectEvent(deviceId);
+      }
+    },
+    false
+  );
+
+  // Chacteristics Events Listener
+  window.addEventListener(
+    "flutterCharacteristicsEventListener",
+    (event) => {
+      let data = JSON.stringify(event.detail);
+      const myObj = JSON.parse(data);
+      native.receiveCharacteristicValueNotification(
+        myObj.deviceId,
+        myObj.cname,
+        myObj.d64
+      );
+    },
+    false
+  );
 })();

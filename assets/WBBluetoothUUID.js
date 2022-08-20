@@ -28,6 +28,7 @@
     uuidAlias >>>= 0; // Make sure the number is positive and 32 bits.
     let strAlias = `0000000${uuidAlias.toString(16)}`;
     strAlias = strAlias.substr(-8);
+    // return `0000180f-0000-1000-8000-00805f9b34fb`;
     return strAlias + "-0000-1000-8000-00805f9b34fb";
   }
 
@@ -259,13 +260,18 @@
       if (typeof name === "number") {
         return canonicalUUID(name);
       }
+
       if (uuidRegex.test(name)) {
         //note native IOS bridges converts to uppercase since IOS seems to demand this.
         return name.toLowerCase();
       }
+
       if (table.hasOwnProperty(name)) {
-        return table[name];
+        let data = table[name];
+        console.log(`Got Table name : ${data}`);
+        return data;
       }
+
       if (shortUUIDRegex.test(name)) {
         // this is not in the spec,
         // https://webbluetoothcg.github.io/web-bluetooth/#resolveuuidname

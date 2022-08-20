@@ -1,7 +1,7 @@
 name: web_view_ble
 description: Add Bluetooth Low Energy Support in WebView Flutter
-version: 0.0.1
-homepage:
+version: 0.0.2
+homepage: https://github.com/rohitsangwan01/web_view_ble
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
   flutter_inappwebview: ^5.4.3+7
-  quick_blue: ^0.5.0-dev.2
-# flutter_reactive_ble: ^5.0.2
+  #quick_blue: ^0.5.0-dev.2
+  flutter_reactive_ble: ^5.0.2
 
 dev_dependencies:
   flutter_test:

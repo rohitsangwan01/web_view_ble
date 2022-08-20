@@ -1,8 +1,9 @@
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:web_view_ble/src/model/ble_device.dart';
 import '../services/ble_service.dart';
 
 ///`navigator.bluetooth`
-void registerNavigatorBluetooth(controller) {
+void registerNavigatorBluetooth(InAppWebViewController controller) {
   ///[Request Device]
   controller.addJavaScriptHandler(
       handlerName: 'requestDevice',

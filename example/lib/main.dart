@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -21,10 +23,13 @@ class WebsiteView extends StatefulWidget {
 }
 
 class _WebsiteViewState extends State<WebsiteView> {
-  var url = 'https://googlechrome.github.io/samples/web-bluetooth/index.html';
+  //var url = 'https://googlechrome.github.io/samples/web-bluetooth/index.html';
+  //var url = 'https://jeroen1602.github.io/flutter_web_bluetooth/#/';
+  var url = "https://nerbioweb.web.app/";
   final urlController = TextEditingController();
 
   InAppWebViewController? webViewController;
+  bool canGoBack = false;
 
   @override
   void initState() {
@@ -33,9 +38,20 @@ class _WebsiteViewState extends State<WebsiteView> {
   }
 
   askBlePermission() async {
-    var status = await Permission.bluetooth.status;
-    if (status.isDenied) {
+    var blePermission = await Permission.bluetooth.status;
+    if (blePermission.isDenied) {
       Permission.bluetooth.request();
+    }
+    // Android Vr > 12 required These Ble Permission
+    if (Platform.isAndroid) {
+      var bleConnectPermission = await Permission.bluetoothConnect.status;
+      var bleScanPermission = await Permission.bluetoothScan.status;
+      if (bleConnectPermission.isDenied) {
+        Permission.bluetoothConnect.request();
+      }
+      if (bleScanPermission.isDenied) {
+        Permission.bluetoothScan.request();
+      }
     }
   }
 
@@ -50,6 +66,14 @@ class _WebsiteViewState extends State<WebsiteView> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Flowser"),
+          centerTitle: true,
+          leading: canGoBack
+              ? IconButton(
+                  onPressed: () {
+                    webViewController?.goBack();
+                  },
+                  icon: Icon(Icons.arrow_back_ios))
+              : const SizedBox(),
         ),
         body: SafeArea(
             child: Column(children: <Widget>[
@@ -70,11 +94,16 @@ class _WebsiteViewState extends State<WebsiteView> {
               children: [
                 InAppWebView(
                   initialUrlRequest: URLRequest(url: Uri.parse(url)),
-                  onLoadStop: (cntrl, url) {
+                  onLoadStop: (cntrl, url) async {
                     onLoadStop(cntrl, context);
+                    webViewController = cntrl;
+                    bool _canGoBack = await cntrl.canGoBack();
+                    setState(() {
+                      canGoBack = _canGoBack;
+                    });
                   },
                   onConsoleMessage: (controller, consoleMessage) {
-                    print(
+                    logSuccess(
                         "ConsoleMessage : ${consoleMessage.messageLevel.toString()} :  ${consoleMessage.message} ");
                   },
                 ),

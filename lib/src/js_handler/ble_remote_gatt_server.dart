@@ -1,5 +1,4 @@
-import 'package:web_view_ble/src/model/ble_service.dart';
-
+import 'package:web_view_ble/web_view_ble.dart';
 import '../services/ble_service.dart';
 
 void registerRemoteGattServer(controller) {
@@ -24,9 +23,22 @@ void registerRemoteGattServer(controller) {
   controller.addJavaScriptHandler(
       handlerName: 'device:getPrimaryServices',
       callback: (args) async {
+        logInfo(args.toString());
         String deviceID = args[0]['data']['deviceId'];
-        List<BleServiceModel> services =
+        String? serviceUUID;
+        if (args.toString().contains('serviceUUID')) {
+          serviceUUID = args[0]['data']['serviceUUID'];
+        }
+        List<String> servicesList =
             await BleService.to.discoverServices(deviceID);
-        return services.map((e) => e.serviceId).toList();
+        if (serviceUUID != null) {
+          if (servicesList.contains(serviceUUID)) {
+            return [serviceUUID];
+          } else {
+            return [];
+          }
+        } else {
+          return servicesList;
+        }
       });
 }

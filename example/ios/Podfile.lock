@@ -11,8 +11,6 @@ PODS:
   - permission_handler_apple (9.0.4):
     - Flutter
   - Protobuf (3.20.1)
-  - quick_blue (0.0.1):
-    - Flutter
   - reactive_ble_mobile (0.0.1):
     - Flutter
     - Protobuf (~> 3.5)
@@ -27,7 +25,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
-  - quick_blue (from `.symlinks/plugins/quick_blue/ios`)
   - reactive_ble_mobile (from `.symlinks/plugins/reactive_ble_mobile/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - web_view_ble (from `.symlinks/plugins/web_view_ble/ios`)
@@ -45,8 +42,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
-  quick_blue:
-    :path: ".symlinks/plugins/quick_blue/ios"
   reactive_ble_mobile:
     :path: ".symlinks/plugins/reactive_ble_mobile/ios"
   url_launcher_ios:
@@ -60,7 +55,6 @@ SPEC CHECKSUMS:
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   Protobuf: b60ec2f51ad74765f44d0c09d2e0579d7de21745
-  quick_blue: 3786c0eccb373bf9799ec1b42f495f77199a4e7e
   reactive_ble_mobile: 9ce6723d37ccf701dbffd202d487f23f5de03b4c
   SwiftProtobuf: 6ef3f0e422ef90d6605ca20b21a94f6c1324d6b3
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de

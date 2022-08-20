@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:web_view_ble/src/services/ble_service.dart';
+import 'package:web_view_ble/src/services/dart_to_js.dart';
 import 'js_handler/js_handler.dart';
 
 class WebViewBle {
@@ -12,13 +13,14 @@ class WebViewBle {
 
   ///call `init` in `OnWebViewCreated`
   init() {
-    _addjsHandlers();
+    _addJsHandlers();
     _insertBleJs();
+    _initDartToJs(controller);
     BleService.to.init(context);
   }
 
   ///`Add All Handlers for JS Communication`
-  _addjsHandlers() async {
+  _addJsHandlers() async {
     JsHandler(webViewController: controller).addHandlers();
   }
 
@@ -29,6 +31,10 @@ class WebViewBle {
           assetFilePath: "packages/web_view_ble/assets/$jsFile.js");
     }
     print("Js Inserted");
+  }
+
+  _initDartToJs(controller) {
+    DartToJs.to.controller = controller;
   }
 
   ///`All Javascript Files`

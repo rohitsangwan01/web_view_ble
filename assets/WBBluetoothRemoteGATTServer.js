@@ -58,7 +58,8 @@
         return Promise.reject(new Error("getPrimaryService requires a UUID"));
       }
       const services = await this.getPrimaryServices(uuid);
-      return services[0];
+      let requiredService = services[0];
+      return requiredService;
     },
     getPrimaryServices: async function (uuid) {
       const data = {
