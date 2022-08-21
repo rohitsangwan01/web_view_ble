@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Update Readme
+
 ## 0.0.2
 
 - Added All Bluetooth Apis
