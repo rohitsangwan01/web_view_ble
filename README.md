@@ -21,7 +21,7 @@ then inside `onLoadStop` callback of WebView , call this library like this
 
 ```dart
 void onLoadStop(InAppWebViewController controller,BuildContext context) async {
-    WebViewBle(controller: controller, context: context).init();
+    WebViewBle.init(controller: controller, context: context);
 }
 ```
 
