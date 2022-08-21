@@ -44,7 +44,6 @@ The web_view_ble lib supports the following bluetooth Api's:
 - Read / write a characteristic
 - Subscribe / unsubscribe to a characteristic
 
-```
 ## Resources
 
 Thanks to [WebBle](https://github.com/daphtdazz/WebBLE) for Ble javascript Polyfill
@@ -52,4 +51,3 @@ Thanks to [WebBle](https://github.com/daphtdazz/WebBLE) for Ble javascript Polyf
 ## Additional information
 
 This is Just The Initial Version feel free to Contribute or Report any Bug!
-```
