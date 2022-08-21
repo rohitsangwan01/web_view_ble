@@ -1,6 +1,7 @@
 ## 0.0.3
 
 - Update Readme
+- minor fixes
 
 ## 0.0.2
 

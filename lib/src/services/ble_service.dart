@@ -243,8 +243,7 @@ class BleService {
         characteristicId: Uuid.parse(characteristicUUID),
         serviceId: Uuid.parse(serviceUUID),
         deviceId: deviceID);
-    late StreamSubscription characteristicSubscription;
-    characteristicSubscription = flutterReactiveBle
+    StreamSubscription characteristicSubscription = flutterReactiveBle
         .subscribeToCharacteristic(characteristic)
         .listen((List<int> event) {
       String base64Event = base64.encode(event);
