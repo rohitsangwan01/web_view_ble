@@ -34,8 +34,7 @@ Currently project is in Early stage ,many features are pending to implement yet 
 
 `Request Device`
 
-` / FiltersAvailable : ServiceId , name , namePrefix `
-` / TODO : Add manufacturerData Filters`
+  ` - FiltersAvailable : ServiceId , name , namePrefix `
 
 `Connect`
 
