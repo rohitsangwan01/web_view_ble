@@ -32,9 +32,10 @@ Currently project is in Early stage ,many features are pending to implement yet 
 
 ## Supported Api's :
 
+```Dart
 `Request Device`
 
-    `FiltersAvailable : ServiceId's , name , namePrefix `
+    `FiltersAvailable : ServiceId , name , namePrefix `
     `TODO : Add manufacturerData Filters`
 
 `Connect`
@@ -50,6 +51,7 @@ Currently project is in Early stage ,many features are pending to implement yet 
 `Subscribe/Unsubscribe to Characteristics`
 
 `Update Device Connection State Event`
+```
 
 ## Resources
 
