@@ -32,7 +32,9 @@ Currently project is in Early stage ,many features are pending to implement yet 
 
 ## Supported Api's :
 
-`Request Device` (Filters not included yet)
+`Request Device` 
+    `FiltersAvailable : ServiceId's , name , namePrefix `
+    `TODO : Add manufacturerData Filters`
 
 `Connect`
 

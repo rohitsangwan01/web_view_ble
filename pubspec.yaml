@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
   flutter_inappwebview: ^5.4.3+7
-  #quick_blue: ^0.5.0-dev.2
   flutter_reactive_ble: ^5.0.2
 
 dev_dependencies:

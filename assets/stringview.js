@@ -820,4 +820,3 @@ StringView.prototype.valueOf = StringView.prototype.toString = function () {
 
   return sView;
 };
-console.log("Initializing web bluetooth");

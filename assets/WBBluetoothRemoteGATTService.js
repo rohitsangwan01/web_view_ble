@@ -62,11 +62,16 @@
           for (let i = 0; i < characteristicsForServiceJSON.length; i++) {
             let characeristicUUID = characteristicsForServiceJSON[i];
             if (characeristicUUID) {
-              let canonicalUUID =
-                window.BluetoothUUID.getCharacteristic(characeristicUUID["uuid"]);
-              let properties = characteristicsForServiceJSON[i]["properties"];
+              let canonicalUUID = window.BluetoothUUID.getCharacteristic(
+                characeristicUUID.uuid
+              );
+              let properties = characteristicsForServiceJSON[i].properties;
               characteristics.push(
-                new wb.BluetoothRemoteGATTCharacteristic(service,canonicalUUID,properties)
+                new wb.BluetoothRemoteGATTCharacteristic(
+                  service,
+                  canonicalUUID,
+                  properties
+                )
               );
             }
           }

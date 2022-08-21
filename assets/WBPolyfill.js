@@ -33,15 +33,38 @@
 
   let bluetooth = {};
 
-  bluetooth.getAvailability = function () {
-    return window.flutter_inappwebview
-      .callHandler("getAvailability")
-      .then(function (result) {
-        return result;
-      });
+  //EventHandler onavailabilitychanged;
+
+  bluetooth.getDevices = function () {
+    console.log("Get Devices Called");
+    return [];
   };
 
-  bluetooth.addEventListener = function () {};
+  bluetooth.getAvailability = function () {
+    try {
+      console.log("Get Availability Called");
+      return window.flutter_inappwebview
+        .callHandler("getAvailability")
+        .then(function (result) {
+          return result;
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // bluetooth.onavailabilitychanged = function () {
+  //   console.log("onAvailability called");
+  //   return window.flutter_inappwebview
+  //     .callHandler("getAvailability")
+  //     .then(function (result) {
+  //       return result;
+  //     });
+  // };
+
+  bluetooth.addEventListener = function () {
+    console.log("addEventListener Called");
+  };
 
   bluetooth.requestDevice = function (requestDeviceOptions) {
     if (!requestDeviceOptions) {
@@ -132,16 +155,14 @@
         callbackID: callbackID,
       };
       console.log(`Callback : ${type} | ID : ${callbackID}`);
-      // return window.flutter_inappwebview
-      //   .callHandler(type, { data: data })
-      //   .then(function (result) {
-      //     return result;
-      //   });
       this.messageCount += 1;
       let result = await window.flutter_inappwebview.callHandler(type, {
         data: data,
         callbackID: callbackID,
       });
+      if (result.error != undefined) {
+        throw result.error;
+      }
       return result;
     },
     receiveMessageResponse: function (success, resultString, callbackID) {
@@ -234,29 +255,24 @@
     BluetoothRemoteGATTService: wb.BluetoothRemoteGATTService,
     BluetoothEvent: BluetoothEvent,
   };
-  wb.native = native;
-
   // Exposed interfaces
+  wb.native = native;
   window.iOSNativeAPI = native;
   window.BluetoothDevice = wb.BluetoothDevice;
-
   window.BluetoothRemoteGATTCharacteristic =
     wb.BluetoothRemoteGATTCharacteristic;
   window.BluetoothRemoteGATTServer = wb.BluetoothRemoteGATTServer;
   window.BluetoothRemoteGATTService = wb.BluetoothRemoteGATTService;
-
   window.receiveMessageResponse = native.receiveMessageResponse;
   window.receiveCharacteristicValueNotification =
     native.receiveCharacteristicValueNotification;
-
-  // window.receiveDeviceDisconnectEvent = native.receiveDeviceDisconnectEvent;
+  window.receiveDeviceDisconnectEvent = native.receiveDeviceDisconnectEvent;
 
   native.enableBluetooth();
   function open(location) {
     window.location = location;
   }
   window.open = open;
-  console.log("Initialized web bluetooth");
 
   // Event Handlers from Dart
   window.addEventListener(
@@ -293,6 +309,22 @@
         myObj.cname,
         myObj.d64
       );
+    },
+    false
+  );
+
+  // Availability Change Listener
+  window.addEventListener(
+    "flutterAvailabilityChangeEventListener",
+    (event) => {
+      let data = JSON.stringify(event.detail);
+      const myObj = JSON.parse(data);
+      const isAvailable = myObj.isAvailable;
+      console.log(`BleStatus : ${isAvailable}`);
+      const availabilitychangedEvent = new CustomEvent("availabilitychanged", {
+        status: isAvailable,
+      });
+      window.dispatchEvent(availabilitychangedEvent);
     },
     false
   );

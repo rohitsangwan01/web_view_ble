@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:web_view_ble/src/helper/resolve_char.dart';
-import 'package:web_view_ble/src/model/ble_device.dart';
 import 'package:web_view_ble/src/services/dart_to_js.dart';
 import 'package:web_view_ble/web_view_ble.dart';
 import '../widgets/scan_dialog.dart';
@@ -20,13 +19,9 @@ class BleService {
 
   final flutterReactiveBle = FlutterReactiveBle();
 
-  List<BleDevice> discoveredDevicesList = <BleDevice>[];
+  List<DiscoveredDevice> bleDiscoveredDevicesList = <DiscoveredDevice>[];
 
-  StreamSubscription? _scanSubscription;
-
-  late StreamController<BleDevice> _scanStreamController;
-
-  Stream<BleDevice> get scanStream => _scanStreamController.stream;
+  Stream<BleStatus> get statusStream => flutterReactiveBle.statusStream;
 
   Map<String, StreamSubscription> connectionMap = {};
   Map<QualifiedCharacteristic, StreamSubscription>
@@ -34,24 +29,49 @@ class BleService {
 
   void init(BuildContext context) {
     _context = context;
-    // initialize Streams
-    _scanStreamController = StreamController.broadcast();
-  }
-
-  startScan() {
-    discoveredDevicesList.clear();
-    _scanSubscription =
-        flutterReactiveBle.scanForDevices(withServices: []).listen((event) {
-      if (!discoveredDevicesList.any((element) => element.id == event.id)) {
-        BleDevice device = BleDevice(name: event.name, id: event.id);
-        discoveredDevicesList.add(device);
-        _scanStreamController.add(device);
-      }
+    // BleStatus Stream Init
+    statusStream.listen((BleStatus status) {
+      DartToJs.to.updateAvailabilityStatus(status == BleStatus.ready);
     });
   }
 
-  stopScan() {
-    _scanSubscription?.cancel();
+  void updateDiscoveredDevices(DiscoveredDevice device,
+      {bool? acceptAllDevice, List<Map<String, dynamic>>? filters}) {
+    // Here Apply Filters
+    bool canAcceptAll = acceptAllDevice ?? true;
+    if (!canAcceptAll) {
+      if (filters != null) {
+        logSuccess(device.serviceUuids.toString());
+        // Check for name / namePrefix
+        bool haveValidName = filters.any((filter) {
+          String? name = filter['name'];
+          String? namePrefix = filter['namePrefix'];
+          if (name != null) {
+            bool haveSameName = device.name.toLowerCase() == name.toLowerCase();
+            if (haveSameName) return true;
+            if (namePrefix == null) {
+              return haveSameName;
+            }
+          }
+          if (namePrefix != null) {
+            return device.name
+                .toLowerCase()
+                .startsWith(namePrefix.toLowerCase());
+          }
+          return false;
+        });
+        if (!haveValidName) return;
+      }
+    }
+
+    DiscoveredDevice? oldDevice = bleDiscoveredDevicesList
+        .firstWhereOrNull((element) => element.id == device.id);
+    if (oldDevice == null) {
+      bleDiscoveredDevicesList.add(device);
+    } else {
+      int oldDeviceIndex = bleDiscoveredDevicesList.indexOf(oldDevice);
+      bleDiscoveredDevicesList[oldDeviceIndex] = device;
+    }
   }
 
   Future<bool> getAvailability() async {
@@ -60,7 +80,50 @@ class BleService {
     return status == BleStatus.ready;
   }
 
-  Future<BleDevice?> getBleDevice() async => getBleDeviceFromDialog(_context);
+  Future<DiscoveredDevice?> getBleDevice(args) async {
+    //logSuccess(args.toString());
+    bool? acceptAllDeviceArgs = args[0]['data']['acceptAllDevices'];
+
+    //List of Filters
+    var filters = args[0]['data']['filters'];
+    bool acceptAllDevice = acceptAllDeviceArgs ?? false;
+    //Filter Types
+    // services -> List<String>
+    // name , namePrefix -> String
+    // manufacturerData -> Not Implemented Yet;
+    List<Map<String, dynamic>> filtersList = [];
+    if (filters != null && filters.isNotEmpty) {
+      for (var filter in filters) {
+        String filterType = filter.keys.first;
+        var filterValue = filter[filterType];
+        filtersList.add({filterType: filterValue});
+        logSuccess('Filter -> Type: $filterType ,  Value: $filterValue');
+      }
+    } else {
+      acceptAllDevice = true;
+    }
+    return await getBleDeviceFromDialog(
+      _context,
+      acceptAllDevice: acceptAllDevice,
+      filters: filtersList,
+    );
+  }
+
+  List<Uuid> getServicesFromFilter(List? filters) {
+    List<Uuid> services = [];
+    if (filters?.isNotEmpty ?? true) {
+      for (Map<String, dynamic> filter in filters ?? []) {
+        String serviceName = filter.entries.first.key;
+        if (serviceName == 'services') {
+          List serviceList = filter.entries.first.value;
+          for (String service in serviceList) {
+            services.add(Uuid.parse(service));
+          }
+        }
+      }
+    }
+    return services;
+  }
 
   Future getCharacteristics(serviceUUID, deviceID) async {
     DiscoveredService? service =
@@ -105,7 +168,14 @@ class BleService {
           "deviceId": deviceId,
           "state": isConnected,
         });
-        completer.complete(isConnected);
+
+        if (!completer.isCompleted) {
+          completer.complete(isConnected);
+        }
+        // Auto Remove StreamSubscription
+        if (!isConnected) {
+          disconnect(deviceId);
+        }
       }
     });
     bool isConnected = await completer.future;
@@ -129,9 +199,14 @@ class BleService {
     return services.map((e) => validateUUid(e.serviceId.toString())).toList();
   }
 
-  Future<void> writeCharacteristics(characteristicUUID, serviceUUID, deviceID,
-      value, bool writeWithResponse) async {
-        var code = base64.decode(value);
+  Future<void> writeCharacteristics(
+    characteristicUUID,
+    serviceUUID,
+    deviceID,
+    data,
+    bool writeWithResponse,
+  ) async {
+    var value = base64.decode(data);
     QualifiedCharacteristic characteristic = QualifiedCharacteristic(
         characteristicId: Uuid.parse(characteristicUUID),
         serviceId: Uuid.parse(serviceUUID),
@@ -139,12 +214,12 @@ class BleService {
     if (writeWithResponse) {
       await flutterReactiveBle.writeCharacteristicWithResponse(
         characteristic,
-        value: code,
+        value: value,
       );
     } else {
       await flutterReactiveBle.writeCharacteristicWithoutResponse(
         characteristic,
-        value: code,
+        value: value,
       );
     }
   }

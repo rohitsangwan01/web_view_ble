@@ -1,5 +1,5 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:web_view_ble/src/model/ble_device.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import '../services/ble_service.dart';
 
 ///`navigator.bluetooth`
@@ -8,9 +8,9 @@ void registerNavigatorBluetooth(InAppWebViewController controller) {
   controller.addJavaScriptHandler(
       handlerName: 'requestDevice',
       callback: (args) async {
-        BleDevice? device = await BleService.to.getBleDevice();
+        DiscoveredDevice? device = await BleService.to.getBleDevice(args);
         if (device == null) {
-          throw "Device not selected";
+          return {"error": "No Device Selected "};
         }
         return {
           "name": device.name,

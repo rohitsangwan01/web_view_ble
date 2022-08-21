@@ -29,10 +29,13 @@ flowser.wbutils = {
     "use strict";
     const services = filter.services;
     const name = filter.name;
+    const manufacturerData = filter.manufacturerData;
     const wbutils = flowser.wbutils;
+
     if (name !== undefined && !wbutils.btDeviceNameIsOk(name)) {
       throw new TypeError(`Invalid filter name ${name}`);
     }
+
     const namePrefix = filter.namePrefix;
     if (
       namePrefix !== undefined &&
@@ -41,11 +44,12 @@ flowser.wbutils = {
     ) {
       throw new TypeError(`Invalid filter namePrefix ${namePrefix}`);
     }
-    let canonicalizedFilter = { name, namePrefix };
+    let canonicalizedFilter = { name, namePrefix, manufacturerData };
     if (
       services === undefined &&
       name === undefined &&
-      namePrefix === undefined
+      namePrefix === undefined &&
+      manufacturerData === undefined
     ) {
       throw new TypeError("Filter has no usable properties");
     }

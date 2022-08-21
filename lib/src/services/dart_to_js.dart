@@ -1,7 +1,4 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
-
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:web_view_ble/web_view_ble.dart';
 
@@ -28,7 +25,19 @@ class DartToJs {
       };
       await dispatchJsEvent(event: JsEvents.characteristicsEvent, data: data);
     } catch (e) {
-      print(e);
+      logError(e.toString());
+    }
+  }
+
+  /// To update Availability Status
+  Future<void> updateAvailabilityStatus(bool isAvailable) async {
+    try {
+      Map<String, dynamic> data = {
+        "isAvailable": isAvailable,
+      };
+      await dispatchJsEvent(event: JsEvents.availabilityEvent, data: data);
+    } catch (e) {
+      logError(e.toString());
     }
   }
 
@@ -60,4 +69,5 @@ class DartToJs {
 class JsEvents {
   static String connectionEvent = 'flutterConnectionEventListener';
   static String characteristicsEvent = 'flutterCharacteristicsEventListener';
+  static String availabilityEvent = 'flutterAvailabilityChangeEventListener';
 }

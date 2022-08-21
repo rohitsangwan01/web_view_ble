@@ -9,7 +9,7 @@ class JsHandler {
   JsHandler({required this.webViewController});
 
 // register a JavaScript handler with name "myHandlerName"
-  addHandlers() {
+  Future<void> addHandlers() async {
     ///`RequestDevice` , `GetAvailability`
     registerNavigatorBluetooth(webViewController);
 

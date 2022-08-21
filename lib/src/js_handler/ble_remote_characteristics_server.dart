@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:web_view_ble/src/services/ble_service.dart';
 import 'package:web_view_ble/web_view_ble.dart';
 
