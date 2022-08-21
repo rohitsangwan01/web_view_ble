@@ -6,7 +6,7 @@ Flutter library To add Bluetooth Low Energy Support in WebView Flutter
 
 ## Getting Started
 
-Currently using [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) for WebView
+Using [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) for WebView
 and [flutter_reactive_ble](https://pub.dev/packages/flutter_reactive_ble) for bluetooth
 
 Import these Libraries in your pubspec.yaml
@@ -16,10 +16,10 @@ flutter_inappwebview: ^5.4.3+7
 web_view_ble: 0.0.2
 ```
 
-add WebView in your Project , Check flutter_inappwebview [docs](https://inappwebview.dev/docs/) for setting WebView
-and check [flutter_reactive_ble](https://pub.dev/packages/flutter_reactive_ble) docs for adding bluetooth related settings in your native folders
+add WebView in your Project , Check flutter_inappwebview [docs](https://inappwebview.dev/docs/) for setting up WebView
+and check [flutter_reactive_ble](https://pub.dev/packages/flutter_reactive_ble) docs for adding bluetooth related settings in your native projects
 
-then inside `onLoadStop` callback of WebView , call this library like this
+then in your `onLoadStop` callback of flutter_inappwebview , add this method
 
 ```dart
 void onLoadStop(InAppWebViewController controller,BuildContext context) async {
@@ -28,9 +28,7 @@ void onLoadStop(InAppWebViewController controller,BuildContext context) async {
 ```
 
 and that's it ,WebBluetooth support will be added to your webview ,
-Checkout Example for more details
-
-Currently project is in Early stage ,many features are pending to implement yet and Apis might change later
+Checkout [/example](https://github.com/rohitsangwan01/web_view_ble/tree/main/example) for more details
 
 ## Supported Api's :
 
