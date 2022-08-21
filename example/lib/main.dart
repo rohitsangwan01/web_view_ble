@@ -25,9 +25,8 @@ class WebsiteView extends StatefulWidget {
 class _WebsiteViewState extends State<WebsiteView> {
   var url = 'https://googlechrome.github.io/samples/web-bluetooth/index.html';
   // var url = 'https://jeroen1602.github.io/flutter_web_bluetooth/#/';
-  //var url = "https://nerbioweb.web.app/";
-  final urlController = TextEditingController();
 
+  final urlController = TextEditingController();
   InAppWebViewController? webViewController;
   bool canGoBack = false;
 
