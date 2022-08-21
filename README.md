@@ -13,7 +13,7 @@ Import these Libraries in your pubspec.yaml
 
 ```dart
 flutter_inappwebview: ^5.4.3+7
-web_view_ble: 0.0.3
+web_view_ble: 0.0.4
 ```
 
 Add WebView in your Project , Check flutter_inappwebview [docs](https://inappwebview.dev/docs/) for setting up WebView

@@ -1,6 +1,6 @@
 name: web_view_ble
 description: Add Bluetooth Low Energy Support in WebView Flutter for Android and iOS
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/rohitsangwan01/web_view_ble
 repository: https://github.com/rohitsangwan01/web_view_ble
 issue_tracker: https://github.com/rohitsangwan01/web_view_ble/issues
