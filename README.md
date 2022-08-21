@@ -34,8 +34,8 @@ Currently project is in Early stage ,many features are pending to implement yet 
 
 `Request Device`
 
-    ` - FiltersAvailable : ServiceId , name , namePrefix `
-    ` - TODO : Add manufacturerData Filters`
+` / FiltersAvailable : ServiceId , name , namePrefix `
+` / TODO : Add manufacturerData Filters`
 
 `Connect`
 
@@ -45,11 +45,13 @@ Currently project is in Early stage ,many features are pending to implement yet 
 
 `Write Characteristics`
 
-`getCharacteristics List`
+`GetCharacteristics List`
 
-`Subscribe/Unsubscribe to Characteristics`
+`Subscribeto Characteristics`
 
-`Update Device Connection State Event`
+`Unsubscribe Characteristics`
+
+`Get Connecton Status update`
 
 ```
 ## Resources
