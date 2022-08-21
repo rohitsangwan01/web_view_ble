@@ -1,6 +1,6 @@
 # web_view_ble
 
-web_view_ble To add Bluetooth Low Energy Support in WebView Flutter
+[web_view_ble](https://pub.dev/packages/web_view_ble) To add Bluetooth Low Energy Support in WebView Flutter
 
 ## Getting Started
 
