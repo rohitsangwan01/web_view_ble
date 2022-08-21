@@ -40,8 +40,7 @@ class BleService {
     bool canAcceptAll = acceptAllDevice ?? true;
     if (!canAcceptAll) {
       if (filters != null) {
-        logSuccess(device.serviceUuids.toString());
-        // Check for name / namePrefix
+        // Check for name / namePrefix filter
         bool haveValidName = filters.any((filter) {
           String? name = filter['name'];
           String? namePrefix = filter['namePrefix'];
