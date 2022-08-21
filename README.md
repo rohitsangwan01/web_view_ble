@@ -16,18 +16,18 @@ flutter_inappwebview: ^5.4.3+7
 web_view_ble: 0.0.2
 ```
 
-add WebView in your Project , Check flutter_inappwebview [docs](https://inappwebview.dev/docs/) for setting up WebView
-and check [flutter_reactive_ble](https://pub.dev/packages/flutter_reactive_ble) docs for adding bluetooth related settings in your native projects
+Add WebView in your Project , Check flutter_inappwebview [docs](https://inappwebview.dev/docs/) for setting up WebView
 
-then in your `onLoadStop` callback of flutter_inappwebview , add this method
+And check [flutter_reactive_ble](https://pub.dev/packages/flutter_reactive_ble) docs for adding bluetooth related settings in your native projects
+
+## Usage
+in your `onLoadStop` callback of flutter_inappwebview , add this method
 
 ```dart
 void onLoadStop(InAppWebViewController controller,BuildContext context) async {
     WebViewBle.init(controller: controller, context: context);
 }
 ```
-
-and that's it ,WebBluetooth support will be added to your webview ,
 Checkout [/example](https://github.com/rohitsangwan01/web_view_ble/tree/main/example) for more details
 
 ## Features
