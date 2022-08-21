@@ -30,27 +30,18 @@ void onLoadStop(InAppWebViewController controller,BuildContext context) async {
 and that's it ,WebBluetooth support will be added to your webview ,
 Checkout [/example](https://github.com/rohitsangwan01/web_view_ble/tree/main/example) for more details
 
-## Supported Api's :
+## Features
 
-`Request Device`
+The web_view_ble lib supports the following bluetooth Api's:
 
-  ` - FiltersAvailable : ServiceId , name , namePrefix `
+- Request Device (Filters : ServiceId , name , namePrefix)
+- Connect
+- Disconnect
+- Discover services
+- Discover characteristics
+- Read / write a characteristic
+- Subscribe / unsubscribe to a characteristic
 
-`Connect`
-
-`Disconnect`
-
-`Read Characteristics`
-
-`Write Characteristics`
-
-`GetCharacteristics List`
-
-`Subscribeto Characteristics`
-
-`Unsubscribe Characteristics`
-
-`Get Connecton Status update`
 
 ```
 ## Resources
