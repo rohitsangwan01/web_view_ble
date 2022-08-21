@@ -32,11 +32,10 @@ Currently project is in Early stage ,many features are pending to implement yet 
 
 ## Supported Api's :
 
-```Dart
 `Request Device`
 
-    `FiltersAvailable : ServiceId , name , namePrefix `
-    `TODO : Add manufacturerData Filters`
+    ` - FiltersAvailable : ServiceId , name , namePrefix `
+    ` - TODO : Add manufacturerData Filters`
 
 `Connect`
 
@@ -51,8 +50,8 @@ Currently project is in Early stage ,many features are pending to implement yet 
 `Subscribe/Unsubscribe to Characteristics`
 
 `Update Device Connection State Event`
-```
 
+```
 ## Resources
 
 Thanks to [WebBle](https://github.com/daphtdazz/WebBLE) for Ble javascript Polyfill
@@ -60,3 +59,4 @@ Thanks to [WebBle](https://github.com/daphtdazz/WebBLE) for Ble javascript Polyf
 ## Additional information
 
 This is Just The Initial Version feel free to Contribute or Report any Bug!
+```
