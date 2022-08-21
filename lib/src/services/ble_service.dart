@@ -1,5 +1,3 @@
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +7,7 @@ import 'package:web_view_ble/src/helper/resolve_char.dart';
 import 'package:web_view_ble/src/services/dart_to_js.dart';
 import 'package:web_view_ble/web_view_ble.dart';
 import '../widgets/scan_dialog.dart';
+import 'package:web_view_ble/src/helper/extension.dart';
 
 class BleService {
   static BleService? _instance;
