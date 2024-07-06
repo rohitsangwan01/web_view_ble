@@ -10,7 +10,7 @@
 //
 (function () {
   "use strict";
-  const wbutils = flowser.wbutils;
+  const wbutils = webViewBle.wbutils;
 
   // window.console.log("Build EventTarget");
   wbutils.EventTarget = function () {

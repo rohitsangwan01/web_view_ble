@@ -5,19 +5,15 @@
         atob, Event, StringView, uk, window
 */
 
-eval("var flowser = flowser || {};");
+eval("var webViewBle = webViewBle || {};");
 
-if (!flowser) {
-  flowser = {};
+if (!webViewBle) {
+  webViewBle = {};
 }
 
-if (!flowser) {
-  flowser = {};
-}
+webViewBle.wb = {};
 
-flowser.wb = {};
-
-flowser.wbutils = {
+webViewBle.wbutils = {
   uint8ArrayToBase64: function (bytes) {
     let binary = "";
     bytes.forEach(function (byte) {
@@ -37,7 +33,7 @@ flowser.wbutils = {
     const services = filter.services;
     const name = filter.name;
     const manufacturerData = filter.manufacturerData;
-    const wbutils = flowser.wbutils;
+    const wbutils = webViewBle.wbutils;
 
     if (name !== undefined && !wbutils.btDeviceNameIsOk(name)) {
       throw new TypeError(`Invalid filter name ${name}`);

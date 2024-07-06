@@ -6,8 +6,8 @@
 (function () {
   "use strict";
 
-  const wb = flowser.wb;
-  const wbutils = flowser.wbutils;
+  const wb = webViewBle.wb;
+  const wbutils = webViewBle.wbutils;
 
   // https://webbluetoothcg.github.io/web-bluetooth/ interface
   // console.log("Create BluetoothDevice");

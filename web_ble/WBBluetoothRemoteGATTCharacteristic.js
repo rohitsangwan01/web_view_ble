@@ -22,8 +22,8 @@
 (function () {
   "use strict";
 
-  const wb = flowser.wb;
-  const wbutils = flowser.wbutils;
+  const wb = webViewBle.wb;
+  const wbutils = webViewBle.wbutils;
 
   function BluetoothRemoteGATTCharacteristic(service, uuid, properties) {
     let roProps = {

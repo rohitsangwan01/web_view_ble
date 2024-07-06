@@ -1,11 +1,17 @@
 // ignore_for_file: avoid_print
 
 import 'package:example/permission_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:web_view_ble/web_view_ble.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+  }
+
   runApp(
     const MaterialApp(
       debugShowCheckedModeBanner: false,

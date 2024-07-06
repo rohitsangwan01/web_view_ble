@@ -19,9 +19,12 @@ class BleManager {
     _connectionStreamController = StreamController.broadcast();
 
     UniversalBle.onAvailabilityChange = (AvailabilityState state) {
-      DartToJs.updateAvailabilityStatus(
-        isAvailable: state == AvailabilityState.poweredOn,
-      );
+      if (state == AvailabilityState.poweredOn ||
+          state == AvailabilityState.poweredOff) {
+        DartToJs.updateAvailabilityStatus(
+          isAvailable: state == AvailabilityState.poweredOn,
+        );
+      }
     };
 
     UniversalBle.onConnectionChange = (String deviceId, bool isConnected) {

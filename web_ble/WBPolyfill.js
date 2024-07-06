@@ -22,8 +22,8 @@
 (function () {
   "use strict";
 
-  const wb = flowser.wb;
-  const wbutils = flowser.wbutils;
+  const wb = webViewBle.wb;
+  const wbutils = webViewBle.wbutils;
 
   if (navigator.bluetooth) {
     // already exists, don't polyfill
@@ -53,38 +53,13 @@
   };
 
   let bluetooth = {};
+  bluetooth.onavailabilitychanged = function (event) {};
 
   //EventHandler onavailabilitychanged;
 
   bluetooth.getDevices = function () {
     console.log("Get Devices Called");
     return [];
-  };
-
-  bluetooth.getAvailability = function () {
-    try {
-      console.log("Get Availability Called");
-      return window.flutter_inappwebview
-        .callHandler("getAvailability")
-        .then(function (result) {
-          return result;
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // bluetooth.onavailabilitychanged = function () {
-  //   console.log("onAvailability called");
-  //   return window.flutter_inappwebview
-  //     .callHandler("getAvailability")
-  //     .then(function (result) {
-  //       return result;
-  //     });
-  // };
-
-  bluetooth.addEventListener = function () {
-    console.log("addEventListener Called");
   };
 
   bluetooth.requestDevice = function (requestDeviceOptions) {
@@ -120,7 +95,7 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    
+
     let validatedDeviceOptions = {};
     validatedDeviceOptions.filters = filters;
 
@@ -129,6 +104,17 @@
       .then(function (device) {
         return new wb.BluetoothDevice(device);
       });
+  };
+
+  bluetooth.addEventListener = function (event, listener) {
+    console.log(`AddEventListener: ${event}`);
+    if (event === "availabilitychanged") {
+      bluetooth.onavailabilitychanged = listener;
+    }
+  };
+
+  bluetooth.getAvailability = async function () {
+    return await window.flutter_inappwebview.callHandler("getAvailability");
   };
 
   function BluetoothEvent(type, target) {
@@ -281,6 +267,7 @@
     BluetoothRemoteGATTService: wb.BluetoothRemoteGATTService,
     BluetoothEvent: BluetoothEvent,
   };
+
   // Exposed interfaces
   wb.native = native;
   window.iOSNativeAPI = native;
@@ -347,10 +334,7 @@
       const myObj = JSON.parse(data);
       const isAvailable = myObj.isAvailable;
       console.log(`BleStatus : ${isAvailable}`);
-      const availabilitychangedEvent = new CustomEvent("availabilitychanged", {
-        status: isAvailable,
-      });
-      window.dispatchEvent(availabilitychangedEvent);
+      bluetooth.onavailabilitychanged({ value: isAvailable });
     },
     false
   );
