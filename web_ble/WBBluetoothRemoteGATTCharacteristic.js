@@ -54,15 +54,24 @@
       });
     },
     writeValue: function (value) {
-      // value may be an ArrayBuffer or a TypedArray (view onto an ArrayBuffer). Either way, we
-      // create a new Uint8Array to hold it and defer to the built-in methods for translating
-      // between views.
       const buffer = new Uint8Array(value);
-
-      // Can't send raw array bytes since we use JSON, so base64 encode.
       let v64 = wbutils.uint8ArrayToBase64(buffer);
       return this.sendMessage("writeCharacteristicValue", {
-        data: { value: v64 },
+        data: { value: v64, withResponse: true },
+      });
+    },
+    writeValueWithResponse: function (value) {
+      const buffer = new Uint8Array(value);
+      let v64 = wbutils.uint8ArrayToBase64(buffer);
+      return this.sendMessage("writeCharacteristicValue", {
+        data: { value: v64, withResponse: true },
+      });
+    },
+    writeValueWithoutResponse: function (value) {
+      const buffer = new Uint8Array(value);
+      let v64 = wbutils.uint8ArrayToBase64(buffer);
+      return this.sendMessage("writeCharacteristicValue", {
+        data: { value: v64, withResponse: false },
       });
     },
     startNotifications: function () {

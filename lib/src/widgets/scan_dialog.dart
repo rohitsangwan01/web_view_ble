@@ -17,7 +17,7 @@ Future<WebBleDevice?> getBleDeviceFromDialog({
     return null;
   }
   Completer<WebBleDevice?> completer = Completer();
-  await showAdaptiveDialog(
+  showAdaptiveDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
@@ -27,14 +27,18 @@ Future<WebBleDevice?> getBleDeviceFromDialog({
           width: MediaQuery.sizeOf(context).width * 0.9,
           height: MediaQuery.sizeOf(context).height * 0.5,
           child: _ChooseDevice((BleDevice device) {
-            completer.complete(WebBleDevice.fromBleDevice(device));
+            if (!completer.isCompleted) {
+              completer.complete(WebBleDevice.fromBleDevice(device));
+            }
             Navigator.of(context).pop();
           }, bleScanFilter),
         ),
         actions: [
           TextButton(
             onPressed: () {
-              completer.complete(null);
+              if (!completer.isCompleted) {
+                completer.complete(null);
+              }
               Navigator.of(context).pop();
             },
             child: const Text("Close"),
@@ -42,7 +46,11 @@ Future<WebBleDevice?> getBleDeviceFromDialog({
         ],
       );
     },
-  );
+  ).then((e) {
+    if (!completer.isCompleted) {
+      completer.complete(null);
+    }
+  });
   var result = await completer.future;
   return result;
 }
@@ -196,3 +204,18 @@ class __ChooseDeviceState extends State<_ChooseDevice> {
     );
   }
 }
+
+// class BluetoothStateMixin extends StatefulWidget {
+//   final Widget child;
+//   const BluetoothStateMixin({super.key, required this.child});
+
+//   @override
+//   State<BluetoothStateMixin> createState() => _BluetoothStateMixinState();
+// }
+
+// class _BluetoothStateMixinState extends State<BluetoothStateMixin> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return child;
+//   }
+// }

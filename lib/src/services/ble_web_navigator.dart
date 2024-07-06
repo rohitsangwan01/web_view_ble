@@ -67,12 +67,12 @@ class BleWebNavigator {
     controller.addJavaScriptHandler(
         handlerName: _writeCharacteristicValue,
         callback: (args) async {
-          logWarning(args.toString());
+          logInfo(args.toString());
           String? deviceID = args.deviceId;
           String? characteristicUUID = args.characteristicUUID;
           String? serviceUUID = args.serviceUUID;
           String? value = args.value;
-          bool writeWithResponse = true;
+          bool writeWithResponse = args.withResponse;
           if (deviceID == null ||
               characteristicUUID == null ||
               serviceUUID == null ||
@@ -233,5 +233,9 @@ extension _ArgExtension on List<dynamic> {
 
   String? get value {
     return data?['value'];
+  }
+
+  bool get withResponse {
+    return data?['withResponse'] == true;
   }
 }

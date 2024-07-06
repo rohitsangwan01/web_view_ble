@@ -37,8 +37,8 @@ The web_view_ble lib supports the following bluetooth Api's:
 - Disconnect
 - Discover services
 - Discover characteristics
-- Read / write a characteristic
-- Subscribe / unsubscribe to a characteristic
+- Read/Write
+- Subscribe/Unsubscribe
 - GetAvailability / AvailabilityChanged events
 
 ## Attribution
