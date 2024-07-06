@@ -1,3 +1,10 @@
+/*jslint
+        browser
+*/
+/*global
+        atob, Event, StringView, uk, window
+*/
+
 eval("var flowser = flowser || {};");
 
 if (!flowser) {

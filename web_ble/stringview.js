@@ -1,4 +1,25 @@
 "use strict";
+/*\
+ |*|
+ |*|  :: Number.isInteger() polyfill ::
+ |*|
+ |*|  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
+ |*|
+ \*/
+/*\
+|*|
+|*|  StringView - Mozilla Developer Network
+|*|
+|*|  Revision #12, March 21st, 2017
+|*|
+|*|  https://developer.mozilla.org/en-US/Add-ons/Code_snippets/StringView
+|*|  https://developer.mozilla.org/en-US/docs/User:fusionchess
+|*|  https://github.com/madmurphy/stringview.js
+|*|
+|*|  This framework is released under the GNU Lesser General Public License, version 3 or later.
+|*|  http://www.gnu.org/licenses/lgpl-3.0.html
+|*|
+\*/
 
 if (!Number.isInteger) {
   Number.isInteger = function isInteger(nVal) {

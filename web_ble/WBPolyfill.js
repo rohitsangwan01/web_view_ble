@@ -1,3 +1,24 @@
+/*jslint
+        browser
+*/
+/*global
+        atob, Event, nslog, uk, window
+*/
+//  Copyright 2016-2017 Paul Theriault and David Park. All rights reserved.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+// adapted from chrome app polyfill https://github.com/WebBluetoothCG/chrome-app-polyfill
+
 (function () {
   "use strict";
 
@@ -72,6 +93,7 @@
     }
     let acceptAllDevices = requestDeviceOptions.acceptAllDevices;
     let filters = requestDeviceOptions.filters;
+
     if (acceptAllDevices) {
       if (filters && filters.length > 0) {
         return Promise.reject(
@@ -86,15 +108,19 @@
     }
 
     if (!filters || filters.length === 0) {
-      return Promise.reject(
-        new TypeError("No filters provided and acceptAllDevices not set")
-      );
+      return native
+        .sendMessage("requestDevice", { data: { acceptAllDevices: true } })
+        .then(function (device) {
+          return new wb.BluetoothDevice(device);
+        });
     }
+
     try {
       filters = Array.prototype.map.call(filters, wbutils.canonicaliseFilter);
     } catch (e) {
       return Promise.reject(e);
     }
+    
     let validatedDeviceOptions = {};
     validatedDeviceOptions.filters = filters;
 

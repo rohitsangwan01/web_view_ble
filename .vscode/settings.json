@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "canonicalise",
+        "rssi",
+        "stringview",
+        "wbutils"
+    ],
+    "search.exclude": {
+    "**/web_ble": true,
+  },
+}

@@ -1,54 +1,67 @@
 import 'dart:convert';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:web_view_ble/web_view_ble.dart';
+import 'package:web_view_ble/src/services/logger.dart';
 
 ///`To Call Javascript event From Dart`
 class DartToJs {
-  static DartToJs? _instance;
-  DartToJs._();
-  static DartToJs get to => _instance ??= DartToJs._();
+  static InAppWebViewController? controller;
 
-  /// Initialize DartToJs Controller
-  late InAppWebViewController controller;
+  static const String _connectionEvent = 'flutterConnectionEventListener';
+  static const String _characteristicsEvent =
+      'flutterCharacteristicsEventListener';
+  static const String _availabilityEvent =
+      'flutterAvailabilityChangeEventListener';
 
   /// To update Characteristics Value
-  Future<void> updateCharacteristicsData(
-    String deviceId,
-    String cname,
-    String d64,
-  ) async {
-    try {
-      Map<String, dynamic> data = {
+  static Future<void> updateCharacteristicsData({
+    required String deviceId,
+    required String cname,
+    required String d64,
+  }) async {
+    await _dispatchJsEvent(
+      event: _characteristicsEvent,
+      data: {
         "deviceId": deviceId,
         "cname": cname,
         "d64": d64,
-      };
-      await dispatchJsEvent(event: JsEvents.characteristicsEvent, data: data);
-    } catch (e) {
-      logError(e.toString());
-    }
+      },
+    );
   }
 
   /// To update Availability Status
-  Future<void> updateAvailabilityStatus(bool isAvailable) async {
-    try {
-      Map<String, dynamic> data = {
+  static Future<void> updateAvailabilityStatus({
+    required bool isAvailable,
+  }) async {
+    await _dispatchJsEvent(
+      event: _availabilityEvent,
+      data: {
         "isAvailable": isAvailable,
-      };
-      await dispatchJsEvent(event: JsEvents.availabilityEvent, data: data);
-    } catch (e) {
-      logError(e.toString());
-    }
+      },
+    );
+  }
+
+  /// To update Connection Status
+  static Future<void> updateConnectionStatus({
+    required String deviceId,
+    required bool isConnected,
+  }) async {
+    await _dispatchJsEvent(
+      event: _connectionEvent,
+      data: {
+        "deviceId": deviceId,
+        "state": isConnected,
+      },
+    );
   }
 
   // To Update connection Method in JavaScript
-  Future<void> dispatchJsEvent({
+  static Future<void> _dispatchJsEvent({
     required String event,
     required Map<String, dynamic> data,
   }) async {
     try {
       String jsonData = jsonEncode(data);
-      var response = await controller.callAsyncJavaScript(
+      var response = await controller?.callAsyncJavaScript(
         functionBody: """
             const event = new CustomEvent("$event", {
               detail: $jsonData
@@ -56,18 +69,10 @@ class DartToJs {
             window.dispatchEvent(event);
           """,
       );
-
-      if (response?.error != null) {
-        logError(response?.error ?? "");
-      }
+      String? error = response?.error;
+      if (error != null) throw Exception(error);
     } catch (e) {
       logError(e.toString());
     }
   }
-}
-
-class JsEvents {
-  static String connectionEvent = 'flutterConnectionEventListener';
-  static String characteristicsEvent = 'flutterCharacteristicsEventListener';
-  static String availabilityEvent = 'flutterAvailabilityChangeEventListener';
 }
