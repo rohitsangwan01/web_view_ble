@@ -204,18 +204,3 @@ class __ChooseDeviceState extends State<_ChooseDevice> {
     );
   }
 }
-
-// class BluetoothStateMixin extends StatefulWidget {
-//   final Widget child;
-//   const BluetoothStateMixin({super.key, required this.child});
-
-//   @override
-//   State<BluetoothStateMixin> createState() => _BluetoothStateMixinState();
-// }
-
-// class _BluetoothStateMixinState extends State<BluetoothStateMixin> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return child;
-//   }
-// }
