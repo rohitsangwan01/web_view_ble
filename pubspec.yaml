@@ -1,43 +1,41 @@
 name: web_view_ble
 description: Add Bluetooth Low Energy Support in WebView Flutter for Android and iOS
-version: 0.0.4
+version: 0.1.0
 homepage: https://github.com/rohitsangwan01/web_view_ble
 repository: https://github.com/rohitsangwan01/web_view_ble
 issue_tracker: https://github.com/rohitsangwan01/web_view_ble/issues
+publish_to: none # TODO: remove after updating universal_ble
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
-  flutter: ">=2.5.0"
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
-  flutter_inappwebview: ^5.4.3+7
-  flutter_reactive_ble: ^5.0.2
+  flutter_inappwebview: ^6.0.0
+  universal_ble:
+    git:
+      url: https://github.com/Navideck/universal_ble.git
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lints: ^2.0.0
   flutter_lints: ^2.0.0
+
+platforms:
+  android:
+  ios:
 
 flutter:
   uses-material-design: true
   assets:
-    - assets/stringview.js
-    - assets/WBUtils.js
-    - assets/WBEventTarget.js
-    - assets/WBBluetoothUUID.js
-    - assets/WBDevice.js
-    - assets/WBBluetoothRemoteGATTServer.js
-    - assets/WBBluetoothRemoteGATTService.js
-    - assets/WBBluetoothRemoteGATTCharacteristic.js
-    - assets/WBPolyfill.js
-  plugin:
-    platforms:
-      android:
-        package: com.example.web_view_ble
-        pluginClass: WebViewBlePlugin
-      ios:
-        pluginClass: WebViewBlePlugin
+    - web_ble/stringview.js
+    - web_ble/WBUtils.js
+    - web_ble/WBEventTarget.js
+    - web_ble/WBBluetoothUUID.js
+    - web_ble/WBDevice.js
+    - web_ble/WBBluetoothRemoteGATTServer.js
+    - web_ble/WBBluetoothRemoteGATTService.js
+    - web_ble/WBBluetoothRemoteGATTCharacteristic.js
+    - web_ble/WBPolyfill.js

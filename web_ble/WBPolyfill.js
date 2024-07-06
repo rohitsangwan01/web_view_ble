@@ -1,8 +1,29 @@
+/*jslint
+        browser
+*/
+/*global
+        atob, Event, nslog, uk, window
+*/
+//  Copyright 2016-2017 Paul Theriault and David Park. All rights reserved.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+// adapted from chrome app polyfill https://github.com/WebBluetoothCG/chrome-app-polyfill
+
 (function () {
   "use strict";
 
-  const wb = flowser.wb;
-  const wbutils = flowser.wbutils;
+  const wb = webViewBle.wb;
+  const wbutils = webViewBle.wbutils;
 
   if (navigator.bluetooth) {
     // already exists, don't polyfill
@@ -32,6 +53,7 @@
   };
 
   let bluetooth = {};
+  bluetooth.onavailabilitychanged = function (event) {};
 
   //EventHandler onavailabilitychanged;
 
@@ -40,38 +62,13 @@
     return [];
   };
 
-  bluetooth.getAvailability = function () {
-    try {
-      console.log("Get Availability Called");
-      return window.flutter_inappwebview
-        .callHandler("getAvailability")
-        .then(function (result) {
-          return result;
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // bluetooth.onavailabilitychanged = function () {
-  //   console.log("onAvailability called");
-  //   return window.flutter_inappwebview
-  //     .callHandler("getAvailability")
-  //     .then(function (result) {
-  //       return result;
-  //     });
-  // };
-
-  bluetooth.addEventListener = function () {
-    console.log("addEventListener Called");
-  };
-
   bluetooth.requestDevice = function (requestDeviceOptions) {
     if (!requestDeviceOptions) {
       return Promise.reject(new TypeError("requestDeviceOptions not provided"));
     }
     let acceptAllDevices = requestDeviceOptions.acceptAllDevices;
     let filters = requestDeviceOptions.filters;
+
     if (acceptAllDevices) {
       if (filters && filters.length > 0) {
         return Promise.reject(
@@ -86,15 +83,19 @@
     }
 
     if (!filters || filters.length === 0) {
-      return Promise.reject(
-        new TypeError("No filters provided and acceptAllDevices not set")
-      );
+      return native
+        .sendMessage("requestDevice", { data: { acceptAllDevices: true } })
+        .then(function (device) {
+          return new wb.BluetoothDevice(device);
+        });
     }
+
     try {
       filters = Array.prototype.map.call(filters, wbutils.canonicaliseFilter);
     } catch (e) {
       return Promise.reject(e);
     }
+
     let validatedDeviceOptions = {};
     validatedDeviceOptions.filters = filters;
 
@@ -103,6 +104,17 @@
       .then(function (device) {
         return new wb.BluetoothDevice(device);
       });
+  };
+
+  bluetooth.addEventListener = function (event, listener) {
+    console.log(`AddEventListener: ${event}`);
+    if (event === "availabilitychanged") {
+      bluetooth.onavailabilitychanged = listener;
+    }
+  };
+
+  bluetooth.getAvailability = async function () {
+    return await window.flutter_inappwebview.callHandler("getAvailability");
   };
 
   function BluetoothEvent(type, target) {
@@ -255,6 +267,7 @@
     BluetoothRemoteGATTService: wb.BluetoothRemoteGATTService,
     BluetoothEvent: BluetoothEvent,
   };
+
   // Exposed interfaces
   wb.native = native;
   window.iOSNativeAPI = native;
@@ -321,10 +334,7 @@
       const myObj = JSON.parse(data);
       const isAvailable = myObj.isAvailable;
       console.log(`BleStatus : ${isAvailable}`);
-      const availabilitychangedEvent = new CustomEvent("availabilitychanged", {
-        status: isAvailable,
-      });
-      window.dispatchEvent(availabilitychangedEvent);
+      bluetooth.onavailabilitychanged({ value: isAvailable });
     },
     false
   );
