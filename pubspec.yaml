@@ -4,7 +4,6 @@ version: 0.1.0
 homepage: https://github.com/rohitsangwan01/web_view_ble
 repository: https://github.com/rohitsangwan01/web_view_ble
 issue_tracker: https://github.com/rohitsangwan01/web_view_ble/issues
-publish_to: none # TODO: remove after updating universal_ble
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -14,9 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_inappwebview: ^6.0.0
-  universal_ble:
-    git:
-      url: https://github.com/Navideck/universal_ble.git
+  universal_ble: ^0.11.0
 
 dev_dependencies:
   flutter_test:
