@@ -392,12 +392,11 @@ packages:
   universal_ble:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9bb209f8b59829fc52a434feaf309b7949b66a9b"
-      url: "https://github.com/Navideck/universal_ble.git"
-    source: git
-    version: "0.10.1"
+      name: universal_ble
+      sha256: "92d30496847fe3ee48354c621fbaa3bad0e390985a4d21c40c6cfe5c19f2a591"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.11.0"
   url_launcher:
     dependency: "direct main"
     description:
